@@ -5,22 +5,38 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.demo4.model.Recipe
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+
+data class RecipeDiscoveryUiState(
+    val recipeList : List<Recipe> = emptyList()
+)
 
 @Composable
-fun RecipeDiscoveryScreen() {
+fun RecipeDiscoveryScreen(
+    viewModel: RecipeDiscoveryViewModel = viewModel()
+) {
+
+    val recipeDiscoveryUiState = viewModel.recipeDiscoveryUiState.collectAsState()
 
     Column {
+        Button(onClick = { viewModel.getRandomRecipes() }) {
+            Text("Refresh")
+        }
         LazyVerticalGrid(
             modifier = Modifier
                 .padding(5.dp),
             columns = GridCells.Fixed(2)
         ) {
-            items(recipeList) { recipe ->
+            items(recipeDiscoveryUiState.value.recipeList) { recipe ->
                 RecipeCard(recipe = recipe)
             }
         }
