@@ -27,12 +27,6 @@ fun RecipeDiscoveryScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RecipeDiscoveryScreenPreview() {
-    //
-}
-
 // Sample data to use before we implement API call!
 // We will populate our app with data from the Spoonacular API in the rest of the steps/branches.
 val recipeList: List<Recipe> = listOf(
