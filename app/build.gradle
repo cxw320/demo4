@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
-
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 android {
     namespace 'com.example.demo4'
     compileSdk 33
@@ -21,6 +23,9 @@ android {
     }
 
     buildTypes {
+        all{
+            buildConfigField "String", "SPOONACULAR_API_KEY", localProperties['spoonacularApiKey']
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -34,6 +39,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        buildConfig = true
         compose true
     }
     composeOptions {
@@ -64,7 +70,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
-    // ViewModel
+    // ViewModel with compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
 
     //Flows with compose
